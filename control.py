@@ -16,6 +16,14 @@ def adc_aluno(nome_completo, turma_id):
     conn.commit()
     conn.close()
 
+def adc_apelido(aluno_id, apelido):
+    conn = conectar()
+    c = conn.cursor()
+    c.execute("INSERT INTO apelidos (apelido, aluno_id) VALUES (?, ?)",
+              (apelido, aluno_id))
+    conn.commit()
+    conn.close()
+
 def buscar_apelidos(aluno_id):
     conn = conectar()
     c = conn.cursor()
