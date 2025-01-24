@@ -15,7 +15,7 @@ class Apelido:
         self.apelido = apelido
         self.aluno_id =aluno_id
 
-class Presença:
+class Presenca:
     def __init__(self, id, aluno_id, data, presente):
         self.id = id 
         self.aluno_id = aluno_id
