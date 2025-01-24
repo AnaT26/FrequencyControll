@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-from control import adicionar_turma
+from control import adc_turma
 
 class TurmasView:
     def __init__(self, root):
@@ -12,12 +12,12 @@ class TurmasView:
         self.entrada_turma = tk.Entry(self.frame, width=40)
         self.entrada_turma.pack(pady=5)
 
-        tk.Button(self.frame, text="Adicionar Turma", command=self.adicionar_turma).pack(pady=10)
+        tk.Button(self.frame, text="Adicionar Turma", command=self.adc_turma).pack(pady=10)
 
-    def adicionar_turma(self):
+    def adc_turma(self):
         nome_turma = self.entrada_turma.get()
         if nome_turma:
-            adicionar_turma(nome_turma)
+            adc_turma(nome_turma)
             messagebox.showinfo("Sucesso", "Turma adicionada com sucesso!")
             self.entrada_turma.delete(0, "end")
         else:
