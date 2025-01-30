@@ -2,10 +2,8 @@ import tkinter as tk
 from tkinter import messagebox
 
 # Exemplo de listas
-nomes_completos = ["Anderson Leonardo Luiz", "Arlelto Carvalho do Nascimento", "Charles Pereira Bento", "Cleber Ferreira de Sousa", "Elier Corrêa Bernal", "Eudes Bentes Bulhosa", "Felipe Fernandes Machado", "Francisco Tiago Gomes Barbosa", "Helton Santana da Silva", "Henrique Ricardo Dantas de Souza", "Italo de Almeida Lobato", "Jho Anderson Monteiro Ferreira", "Jorge Ricardo dos Passos Massen", "José Adailton Neves de Oliveira Filho", "José Alyson Cordeiro da Silva", "Kaio Givisiez dos Reis", "Laudir Freire da Silva", "Luis Henrique Barbosa", "Marcelo Augusto Dutra Castro", "Marcos Jhones de Almeida Curico", "Mauricio Xavier Barreto", "Nilmar Oliveira da Silva", "Rafael de Jesus Ventura", "Roberto Faria Neto", "Wallace Silva da Costa"
- ]
-apelidos_presenca = ["adailton neves", "Anderson Luiz", "Arlelto carvalho", "Charles Bento", "Cleber Sousa", "Elioenai Santos", "Eudes Bentes", "Felipe Fernandes Machado", "Helton Santana", "Ítalo Lobato", "JHO ANDERSON", "Jorge Massen Passos", "jose alyson", "Kaio Givisiez", "Kaio Givisiez", "Luis Henrique", "Marcelo Castro", "Marcos Jhones", "MAURICIO BARRETO", "Nilmar Oliveira da Silva", "Nilmar Oliveira", "Rafael de Jesus Ventura", "Ricardo Dantas", "Roberto De Faria neto", "Tiago Gomes", "Wallace Silva"
- ]
+nomes_completos = ["Anderson Leonardo Luiz", "Arlelto Carvalho do Nascimento", "Charles Pereira Bento", "Cleber Ferreira de Sousa", "Elier Corrêa Bernal", "Eudes Bentes Bulhosa", "Felipe Fernandes Machado", "Francisco Tiago Gomes Barbosa", "Helton Santana da Silva", "Henrique Ricardo Dantas de Souza", "Italo de Almeida Lobato", "Jho Anderson Monteiro Ferreira", "Jorge Ricardo dos Passos Massen", "José Adailton Neves de Oliveira Filho", "José Alyson Cordeiro da Silva", "Kaio Givisiez dos Reis", "Laudir Freire da Silva", "Luis Henrique Barbosa", "Marcelo Augusto Dutra Castro", "Marcos Jhones de Almeida Curico", "Mauricio Xavier Barreto", "Nilmar Oliveira da Silva", "Rafael de Jesus Ventura", "Roberto Faria Neto", "Wallace Silva da Costa"]
+apelidos_presenca = ["adailton neves", "Anderson Luiz", "Arlelto carvalho", "Charles Bento", "Cleber Sousa", "Elioenai Santos", "Eudes Bentes", "Felipe Fernandes Machado", "Helton Santana", "Ítalo Lobato", "JHO ANDERSON", "Jorge Massen Passos", "jose alyson", "Kaio Givisiez", "Kaio Givisiez", "Luis Henrique", "Marcelo Castro", "Marcos Jhones", "MAURICIO BARRETO", "Nilmar Oliveira da Silva", "Nilmar Oliveira", "Rafael de Jesus Ventura", "Ricardo Dantas", "Roberto De Faria neto", "Tiago Gomes", "Wallace Silva"]
 
 # Dicionário para mapear nome completo aos apelidos
 mapa_apelidos = {
@@ -36,11 +34,13 @@ mapa_apelidos = {
     "Wallace Silva da Costa": ["Wallace Silva"]
 }
 
-
 # Função para comparar listas e gerar as listas de presença
 def comparar_listas():
-    presentes = presencia_text.get("1.0", "end-1c").strip().split("\n")  # Entrada de presença como várias linhas
-    presentes = [p.strip() for p in presentes if p.strip()]  # Limpar espaços e remover linhas vazias
+    presentes_manha = presencia_manha_text.get("1.0", "end-1c").strip().split("\n")  # Entrada de presença da manhã
+    presentes_manha = [p.strip() for p in presentes_manha if p.strip()]  # Limpar espaços e remover linhas vazias
+
+    presentes_tarde = presencia_tarde_text.get("1.0", "end-1c").strip().split("\n")  # Entrada de presença da tarde
+    presentes_tarde = [p.strip() for p in presentes_tarde if p.strip()]  # Limpar espaços e remover linhas vazias
 
     # Inicializando as listas
     lista_completa = []
@@ -51,8 +51,8 @@ def comparar_listas():
         # Obter a lista de apelidos do nome completo (ou uma lista vazia se não encontrado)
         apelidos = mapa_apelidos.get(nome_completo, [])
         
-        # Verificar se algum dos apelidos está na lista de presentes
-        if any(apelido in presentes for apelido in apelidos):
+        # Verificar se algum dos apelidos está na lista de presentes da manhã ou da tarde
+        if any(apelido in presentes_manha or apelido in presentes_tarde for apelido in apelidos):
             lista_completa.append(f"{nome_completo}: P")  # Presente
             lista_planilha.append("P")
         else:
@@ -74,12 +74,15 @@ def comparar_listas():
 root = tk.Tk()
 root.title("Comparar Lista de Alunos")
 
-# Entrada para lista de presença
-tk.Label(root, text="Digite os apelidos presentes (separados por linha):").pack(pady=5)
+# Entrada para lista de presença da manhã
+tk.Label(root, text="Digite os apelidos presentes pela manhã (separados por linha):").pack(pady=5)
+presencia_manha_text = tk.Text(root, height=10, width=60)
+presencia_manha_text.pack(pady=5)
 
-# Widget Text para entrada multi-linhas (presença)
-presencia_text = tk.Text(root, height=10, width=60)
-presencia_text.pack(pady=5)
+# Entrada para lista de presença da tarde
+tk.Label(root, text="Digite os apelidos presentes pela tarde (separados por linha):").pack(pady=5)
+presencia_tarde_text = tk.Text(root, height=10, width=60)
+presencia_tarde_text.pack(pady=5)
 
 # Caixa de texto para mostrar os resultados com os nomes completos
 tk.Label(root, text="Resultados (com nomes e P/F):").pack(pady=5)
@@ -101,16 +104,21 @@ def copiar_para_planilha():
 
 # Função para limpar os campos de texto
 def limpar_campos():
-    presencia_text.delete(1.0, "end")
+    presencia_manha_text.delete(1.0, "end")
+    presencia_tarde_text.delete(1.0, "end")
     resultados_text.delete(1.0, "end")
     resultados_planilha.delete(1.0, "end")
 
+# Frame para os botões
+button_frame = tk.Frame(root)
+button_frame.pack(pady=10)
+
 # Botão para comparar as listas
-compare_button = tk.Button(root, text="Comparar e Copiar para Planilha", command=copiar_para_planilha)
-compare_button.pack(pady=10)
+compare_button = tk.Button(button_frame, text="Comparar e Copiar para Planilha", command=copiar_para_planilha)
+compare_button.pack(side="left", padx=5)
 
 # Botão para limpar os campos
-clear_button = tk.Button(root, text="Limpar Tudo", command=limpar_campos)
-clear_button.pack(pady=10)
+clear_button = tk.Button(button_frame, text="Limpar Tudo", command=limpar_campos)
+clear_button.pack(side="left", padx=5)
 
 root.mainloop()
