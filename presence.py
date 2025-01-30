@@ -74,15 +74,23 @@ def comparar_listas():
 root = tk.Tk()
 root.title("Comparar Lista de Alunos")
 
+# Frame para as caixas de texto da manhã e da tarde
+presenca_frame = tk.Frame(root)
+presenca_frame.pack(pady=5)
+
 # Entrada para lista de presença da manhã
-tk.Label(root, text="Digite os apelidos presentes pela manhã (separados por linha):").pack(pady=5)
-presencia_manha_text = tk.Text(root, height=10, width=60)
-presencia_manha_text.pack(pady=5)
+manha_frame = tk.Frame(presenca_frame)
+manha_frame.pack(side="left", padx=10)
+tk.Label(manha_frame, text="Manhã (apelidos presentes):").pack()
+presencia_manha_text = tk.Text(manha_frame, height=10, width=30)
+presencia_manha_text.pack()
 
 # Entrada para lista de presença da tarde
-tk.Label(root, text="Digite os apelidos presentes pela tarde (separados por linha):").pack(pady=5)
-presencia_tarde_text = tk.Text(root, height=10, width=60)
-presencia_tarde_text.pack(pady=5)
+tarde_frame = tk.Frame(presenca_frame)
+tarde_frame.pack(side="left", padx=10)
+tk.Label(tarde_frame, text="Tarde (apelidos presentes):").pack()
+presencia_tarde_text = tk.Text(tarde_frame, height=10, width=30)
+presencia_tarde_text.pack()
 
 # Caixa de texto para mostrar os resultados com os nomes completos
 tk.Label(root, text="Resultados (com nomes e P/F):").pack(pady=5)
